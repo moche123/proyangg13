@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
 
-  constructor( private _fb:FormBuilder ){}
+  constructor( private _fb:FormBuilder, private router:Router ){}
 
   public myForm:FormGroup = this._fb.group({
     email: ['',[Validators.required,Validators.email]],
@@ -17,6 +18,7 @@ export class LoginComponent {
 
   login(){
     console.log(this.myForm.value);
+    this.router.navigateByUrl('/pages')
   }
 
   fieldIsInvalidReactive(field:any){
