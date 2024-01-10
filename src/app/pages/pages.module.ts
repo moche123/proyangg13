@@ -9,6 +9,7 @@ import { PagesService } from './services/pages.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
 import { ImgBrokenDirective } from './directives/img-broken.directive';
+import { PagesGuard } from './guards/pages.guard';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ImgBrokenDirective } from './directives/img-broken.directive';
     SharedModule
   ],
   providers: [
-    PagesService
+    PagesService,
+    PagesGuard
   ]
 })
 export class PagesModule { }
