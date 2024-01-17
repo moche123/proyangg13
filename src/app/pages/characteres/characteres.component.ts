@@ -3,6 +3,7 @@ import { PagesService } from '../services/pages.service';
 import { Observable } from 'rxjs';
 import { IResult } from 'src/app/interfaces/character.interface';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-characteres',
@@ -15,7 +16,7 @@ export class CharacteresComponent implements OnInit {
 
   constructor(
     private _service: PagesService,
-    private router: Router
+    private _router: Router
   ){}
 
   ngOnInit(): void {
@@ -23,8 +24,26 @@ export class CharacteresComponent implements OnInit {
   }
 
   addFavorite(character:any){
-    console.log(character);
-    this.router.navigateByUrl('/pages/favorites')
+    const body = {
+      IdCharacter: character.id,
+      IdUser: localStorage.getItem('userId'),
+      nameCharacter: character.name,
+      caracterUrlImagen: character.image,
+      token: localStorage.getItem('token')
+    }
+
+    this._service.addFavorite(body).subscribe(ok => {
+
+      if(ok === true ){
+        Swal.fire({
+          title: 'Enhorabuena!',
+          text: `${body.nameCharacter} agregado correctamente`,
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+        this._router.navigateByUrl('/pages/favorites');
+      }
+    })
   }
 
 }

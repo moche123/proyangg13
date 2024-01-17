@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
+import { AuthService } from 'src/app/auth/services/auth.service';
 // import { AuthService } from '../../auth/services/auth.service';
 
 @Injectable()
 export class PagesGuard {
 
-  constructor(
-    private router:Router
-  ){}
+  constructor(private authService: AuthService) {}
 
   canActivate(): boolean {
-    //this.router.navigateByUrl('/auth/login');
-    return true;
+    if (this.authService.isLoggedIn()) {
+      return true;
+    }
+    Swal.fire({
+      title: 'Error!',
+      text:'Por favor loguearse',
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
+    this.authService.returnToLogin();
+    return false;
   }
 }
